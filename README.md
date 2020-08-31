@@ -4,7 +4,7 @@
 ## Installation
 ```bash
 git clone https://github.com/cyberphor/pivot2osint.git 
-chmod 754 ./pivot2osint/pivot2osint.py
+chmod 755 ./pivot2osint/pivot2osint.py
 sudo cp ./pivot2osint/pivot2osint.py /usr/local/bin/pivot2osint
 ```
 
