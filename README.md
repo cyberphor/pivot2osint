@@ -9,6 +9,19 @@ sudo cp ./pivot2osint/pivot2osint.py /usr/local/bin/pivot2osint
 ```
 
 ## Usage
+`pivot2osint` currently supports the Zeek Intel Framework, Team Cymru, and VirusTotal. 
+```bash
+usage: pivot2osint.py [-h] [--zeek] [--team-cymru] [--virus-total]
+
+optional arguments:
+  -h, --help     show this help message and exit
+  --zeek
+  --team-cymru
+  --virus-total
+```
+
+## Examples
+As an example, download a Packet Capture (PCAP) file and extract any files it contains. 
 ```bash
 wget https://www.malware-traffic-analysis.net/2014/11/23/2014-11-23-traffic-analysis-exercise.pcap.zip
 unzip 2014-11-23-traffic-analysis-exercise.pcap.zip
@@ -16,8 +29,10 @@ mv 2014-11-23-traffic-analysis-exercise.pcap.zip traffic.pcap
 tshark -nr traffic.pcap --export-objects http,evidence
 cd evidence
 ```
+Then, use one of the three currently supported options to automatically hash the extracted files and pivot to a data source. The first output value is how confident the queried data source is on the whether or not the file is malicious. The second output value is the MD5 hash of the file in question. The third output value is the file's name.  
 ```bash
 # option 1
+pivot2osint --zeek
 [+] Pivoting to Zeek with 163 values of interest.
  --> 100 1408275c2e2c8fe5e83227ba371ac6b3 cars.php%3fhonda=1185&proxy=2442&timeline=4&jobs=823&image=171&join=757&list=679
 ```
