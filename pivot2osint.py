@@ -121,3 +121,11 @@ if __name__ == "__main__":
         data_source = 'VirusTotal'
         pivot = pivot_2_virus_total
     collect()
+
+# REFERENCES
+# https://developers.virustotal.com/reference#file-search
+# https://stackoverflow.com/questions/22058048/hashing-a-file-in-python
+# https://docs.python.org/3/library/os.html#os.scandir
+# https://developers.google.com/edu/python/dict-files
+# https://stackoverflow.com/questions/930397/getting-the-last-element-of-a-list
+# https://gist.github.com/aunyks/042c2798383f016939c40aa1be4f4aaf
