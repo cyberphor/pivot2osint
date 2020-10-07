@@ -5,21 +5,17 @@
 '''
 
 __author__ = 'Victor Fernandez III'
-__version__ = '1.1.0'
+__version__ = '2.0'
 
 import argparse
 import hashlib
 import json
 import os
+import re
 import requests
 import select
 import socket
 import time
-
-parser = argparse.ArgumentParser()
-parser.add_argument('--virus-total', action='store_true')
-parser.add_argument('--team-cymru', action='store_true')
-args = parser.parse_args()
 
 def collect():
     directory = os.listdir('.')
@@ -54,33 +50,23 @@ def fingerprint(files):
         print(banner + '.')
     pivot(evidence)
 
-def pivot_2_virus_total(evidence):
-    try:
-        vt = 'https://www.virustotal.com/api/v3/files/'
-        #key = ''
-        key = input("[>] VirusTotal API key: ")
+def pivot2zeek(evidence):
+    zeek = 'missing'
+    for directory, subdirectories, files in os.walk("/opt/"):
+        for name in files:
+            if name == 'intel.dat':
+                zeek = os.path.join(directory,name)
+    if zeek != 'missing':
+        intel = open(zeek).readlines()
         for digest in evidence:
-            filename = evidence[digest]
-            with requests.session() as browser:
-                url = vt + digest
-                custom_headers = { 'x-apikey': key }
-                response = requests.get(url, headers = custom_headers)
-                if response.status_code == 200:
-                    results = json.loads(response.content)['data']
-                    attributes = results.get('attributes')
-                    detected = attributes['last_analysis_stats']['malicious']
-                    if detected > 0:
-                        undetected = attributes['last_analysis_stats']['undetected']
-                        scanner_count = detected + undetected
-                        percent = str(detected) + '/' + str(scanner_count)
-                        print(" --> " + percent, digest, filename)
-            if len(evidence) > 4:
-                time.sleep(15)
-    except:
-        print("[x] Failed to pivot to VirusTotal.")
-        exit()
+            for line in intel:
+                if re.findall(digest,line):
+                    filename = evidence[digest]
+                    print(" --> 100 " + digest, filename)
+    else:
+        print("[x] Failed to pivot to Zeek.")
 
-def pivot_2_team_cymru(evidence):
+def pivot2teamcymru(evidence):
     try:
         mhr = ('hash.cymru.com', 43)
         hashes = ['begin']
@@ -110,16 +96,51 @@ def pivot_2_team_cymru(evidence):
         print("[x] Failed to pivot to Team Cymru's Malware Hash Registry.")
         exit()
 
+def pivot2virustotal(evidence):
+    try:
+        vt = 'https://www.virustotal.com/api/v3/files/'
+        #key = ''
+        key = input("[>] VirusTotal API key: ")
+        for digest in evidence:
+            filename = evidence[digest]
+            with requests.session() as browser:
+                url = vt + digest
+                custom_headers = { 'x-apikey': key }
+                response = requests.get(url, headers = custom_headers)
+                if response.status_code == 200:
+                    results = json.loads(response.content)['data']
+                    attributes = results.get('attributes')
+                    detected = attributes['last_analysis_stats']['malicious']
+                    if detected > 0:
+                        undetected = attributes['last_analysis_stats']['undetected']
+                        scanner_count = detected + undetected
+                        percent = str(detected) + '/' + str(scanner_count)
+                        print(" --> " + percent, digest, filename)
+            if len(evidence) > 4:
+                time.sleep(15)
+    except:
+        print("[x] Failed to pivot to VirusTotal.")
+        exit()
+
 if __name__ == "__main__":
-    if args.virus_total:
-        data_source = 'VirusTotal'
-        pivot = pivot_2_virus_total
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--zeek', action='store_true')
+    parser.add_argument('--team-cymru', action='store_true')
+    parser.add_argument('--virus-total', action='store_true')
+    args = parser.parse_args()
+    if args.zeek:
+        data_source = 'Zeek'
+        pivot = pivot2zeek
     elif args.team_cymru:
         data_source = 'Team Cymru'
-        pivot = pivot_2_team_cymru
-    else:
+        pivot = pivot2teamcymru
+    elif args.virus_total:
         data_source = 'VirusTotal'
-        pivot = pivot_2_virus_total
+        pivot = pivot2virustotal
+    else:
+        print('[x] Please select a data source.')
+        parser.print_help()
+        exit()
     collect()
 
 # REFERENCES
