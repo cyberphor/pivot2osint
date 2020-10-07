@@ -30,7 +30,7 @@ mv 2014-11-23-traffic-analysis-exercise.pcap.zip traffic.pcap
 tshark -nr traffic.pcap --export-objects http,evidence
 cd evidence
 ```
-Then, use one of the three currently supported options to automatically hash the extracted files and pivot to a data source. The first output value is how confident the queried data source is on the whether or not the file is malicious. The second output value is the MD5 hash of the file in question. The third output value is the file's name.  
+Then, use one of the currently supported options to automatically hash the extracted files and pivot to a data source. The first output value is how confident the queried data source is on the whether or not the file is malicious. The second output value is the MD5 hash of the file in question. The third output value is the file's name.  
 ```bash
 # option 1
 pivot2osint --zeek
