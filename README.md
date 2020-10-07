@@ -1,23 +1,24 @@
 # pivot2osint
 > Automates malware hashing and pivoting to OSINT data sources for additional values of interest.
 
-## Installation
-```bash
-git clone https://github.com/cyberphor/pivot2osint.git 
-chmod 755 ./pivot2osint/pivot2osint.py
-sudo cp ./pivot2osint/pivot2osint.py /usr/local/bin/pivot2osint
-```
-
 ## Usage
 `pivot2osint` currently supports the Zeek Intel Framework, Team Cymru, and VirusTotal. 
 ```bash
-usage: pivot2osint.py [-h] [--zeek] [--team-cymru] [--virus-total]
+usage: pivot2osint [-h] [--zeek] [--team-cymru] [--virus-total]
 
 optional arguments:
   -h, --help     show this help message and exit
   --zeek
   --team-cymru
   --virus-total
+```
+
+## Installation
+Download `pivot2osint` from GitHub, make it executable, and then, copy it to a directory within your environment path. 
+```bash
+git clone https://github.com/cyberphor/pivot2osint.git 
+chmod 755 ./pivot2osint/pivot2osint.py
+sudo cp ./pivot2osint/pivot2osint.py /usr/local/bin/pivot2osint
 ```
 
 ## Examples
