@@ -14,7 +14,7 @@ optional arguments:
 ```
 
 ## Installation
-Download `pivot2osint` from GitHub, make it executable, and then, copy it to a directory within your environment path. 
+Download `pivot2osint` from GitHub, make it executable, and copy it to a directory within your environment path. 
 ```bash
 git clone https://github.com/cyberphor/pivot2osint.git 
 chmod 755 ./pivot2osint/pivot2osint.py
