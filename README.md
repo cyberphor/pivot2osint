@@ -3,7 +3,7 @@
 
 ## Usage
 `pivot2osint` currently supports the Zeek Intel Framework, Team Cymru, and VirusTotal. 
-```bash
+```
 usage: pivot2osint [-h] [--zeek] [--team-cymru] [--virus-total]
 
 optional arguments:
@@ -23,7 +23,7 @@ sudo cp ./pivot2osint/pivot2osint.py /usr/local/bin/pivot2osint
 
 ## Examples
 As an example, download a Packet Capture (PCAP) file and extract any files it contains. 
-```bash
+```
 wget https://www.malware-traffic-analysis.net/2014/11/23/2014-11-23-traffic-analysis-exercise.pcap.zip
 unzip 2014-11-23-traffic-analysis-exercise.pcap.zip
 mv 2014-11-23-traffic-analysis-exercise.pcap.zip traffic.pcap
